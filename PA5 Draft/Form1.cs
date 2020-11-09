@@ -83,9 +83,11 @@ namespace PA5_Draft
             }
         }
 
-        // Mine Here
+        // Aurelio Code Here
+        // Aurelio Code Here
 
-        // William Your Code Here Between these two.
+        // William Your Code.
+        // William Your Code.
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
