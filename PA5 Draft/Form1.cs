@@ -239,7 +239,7 @@ namespace PA5_Draft
         private void Game_HitWallAndLose()
         {
             mainTimer.Stop();
-            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\w_ara\source\repos\4UR3L10\COP4226-05\kill.wav");
+            SoundPlayer soundPlayer = new SoundPlayer(@"kill.wav");
             soundPlayer.Load();
             soundPlayer.Play();
             Field.Refresh();
@@ -250,7 +250,7 @@ namespace PA5_Draft
         private void Game_HitSnakeAndLose()
         {
             mainTimer.Stop();
-            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\w_ara\source\repos\4UR3L10\COP4226-05\hitsnakeandlose.wav");
+            SoundPlayer soundPlayer = new SoundPlayer(@"hitsnakeandlose.wav");
             soundPlayer.Load();
             soundPlayer.Play();
             Field.Refresh();
