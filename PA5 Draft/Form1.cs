@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,11 +17,12 @@ namespace PA5_Draft
         private int Step = 1;
         private readonly SnakeGame Game;
         private int NumberOfApples = 1;
+        private int NumberOfApplesEaten = 0;
 
         // Constructor.
         public MainForm()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             Game = new SnakeGame(new System.Drawing.Point((Field.Width - 20) / 2, Field.Height / 2), 40, NumberOfApples, Field.Size);
             Field.Image = new Bitmap(Field.Width, Field.Height);
             Game.EatAndGrow += Game_EatAndGrow;
@@ -83,8 +85,8 @@ namespace PA5_Draft
             }
         }
 
-        // Aurelio Code Here
-        // Aurelio Code Here
+        // Aurelio Code Here - BEGIN        
+        // Aurelio Code Here - END
 
         // William Your Code.
         // William Your Code.
@@ -99,16 +101,23 @@ namespace PA5_Draft
         {
             mainTimer.Stop();
             Field.Refresh();
+
+            // When the game is lost, show a message declaring the number of eaten apples.
+            MessageBox.Show("You Died\nThe number of apple eaten was: " + NumberOfApplesEaten.ToString());
         }
         private void Game_HitSnakeAndLose()
         {
             mainTimer.Stop();
             Field.Refresh();
+
+            // When the game is lost, show a message declaring the number of eaten apples.
+            MessageBox.Show("You Died\nThe number of apple eaten was: " + NumberOfApplesEaten.ToString());           
         }
 
         private void Game_EatAndGrow()
         {
-
+            // Counter for the number of apple eaten.
+            NumberOfApplesEaten++;
         }
     }
 }
