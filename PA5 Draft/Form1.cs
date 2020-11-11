@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Media;
 namespace PA5_Draft
 {
     public partial class MainForm : Form
@@ -17,6 +17,7 @@ namespace PA5_Draft
         private int Step = 1;
         private readonly SnakeGame Game;
         private int NumberOfApples = 1;
+        private Boolean flag = false;
         private int NumberOfApplesEaten = 0;
 
         // Constructor.
@@ -37,7 +38,19 @@ namespace PA5_Draft
             Pen PenForObstacles = new Pen(Color.FromArgb(40,40,40),2);
             Pen PenForSnake = new Pen(Color.FromArgb(100, 100, 100), 2);
             Brush BackGroundBrush = new SolidBrush(Color.FromArgb(150, 250, 150));
-            Brush AppleBrush = new SolidBrush(Color.FromArgb(250, 50, 50));
+            //Brush AppleBrush = new SolidBrush(Color.FromArgb(250, 50, 50));
+            
+            Brush AppleBrush = null;
+            if (flag)
+            {
+                AppleBrush = new SolidBrush(Color.FromArgb(150, 250, 150));
+                flag = false;
+            }
+            else
+            {
+                AppleBrush = new SolidBrush(Color.FromArgb(250, 50, 50));
+                flag = true;
+            }
 
             // Setting the graphics.
             using (Graphics g = Graphics.FromImage(Field.Image))
@@ -94,12 +107,16 @@ namespace PA5_Draft
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             Game.Move(Step);
+            
             Field.Invalidate();
         }
 
         private void Game_HitWallAndLose()
         {
             mainTimer.Stop();
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\w_ara\source\repos\4UR3L10\COP4226-05\kill.wav");
+            soundPlayer.Load();
+            soundPlayer.Play();
             Field.Refresh();
 
             // When the game is lost, show a message declaring the number of eaten apples.
@@ -108,6 +125,9 @@ namespace PA5_Draft
         private void Game_HitSnakeAndLose()
         {
             mainTimer.Stop();
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\w_ara\source\repos\4UR3L10\COP4226-05\hitsnakeandlose.wav");
+            soundPlayer.Load();
+            soundPlayer.Play();
             Field.Refresh();
 
             // When the game is lost, show a message declaring the number of eaten apples.
