@@ -43,6 +43,7 @@
             this.Field.Size = new System.Drawing.Size(604, 581);
             this.Field.TabIndex = 0;
             this.Field.TabStop = false;
+            this.Field.Click += new System.EventHandler(this.Field_Click);
             this.Field.Paint += new System.Windows.Forms.PaintEventHandler(this.Field_Paint);
             // 
             // mainTimer
