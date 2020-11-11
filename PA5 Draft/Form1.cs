@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Media;
 namespace PA5_Draft
 {
     public partial class MainForm : Form
@@ -17,11 +17,17 @@ namespace PA5_Draft
         private int Step = 1;
         private readonly SnakeGame Game;
         private int NumberOfApples = 1;
+        private Boolean flag = false;
         private int NumberOfApplesEaten = 0;
+        private Boolean tickFlag = false;
+        private Boolean cancelFlag = false;
+        private Boolean validationCustom = false;
+        private TextBox textBoxRows = new TextBox();
 
         // Constructor.
         public MainForm()
         {
+            ShowMyDialogBox();
             InitializeComponent(); 
             Game = new SnakeGame(new System.Drawing.Point((Field.Width - 20) / 2, Field.Height / 2), 40, NumberOfApples, Field.Size);
             Field.Image = new Bitmap(Field.Width, Field.Height);
@@ -37,7 +43,19 @@ namespace PA5_Draft
             Pen PenForObstacles = new Pen(Color.FromArgb(40,40,40),2);
             Pen PenForSnake = new Pen(Color.FromArgb(100, 100, 100), 2);
             Brush BackGroundBrush = new SolidBrush(Color.FromArgb(150, 250, 150));
-            Brush AppleBrush = new SolidBrush(Color.FromArgb(250, 50, 50));
+            //Brush AppleBrush = new SolidBrush(Color.FromArgb(250, 50, 50));
+            
+            Brush AppleBrush = null;
+            if (flag)
+            {
+                AppleBrush = new SolidBrush(Color.FromArgb(150, 250, 150));
+                flag = false;
+            }
+            else
+            {
+                AppleBrush = new SolidBrush(Color.FromArgb(250, 50, 50));
+                flag = true;
+            }
 
             // Setting the graphics.
             using (Graphics g = Graphics.FromImage(Field.Image))
@@ -85,7 +103,127 @@ namespace PA5_Draft
             }
         }
 
-        // Aurelio Code Here - BEGIN        
+        // Aurelio Code Here - BEGIN  
+
+        // Clicking anywhere on the game field pause/resume the game.
+        private void Field_Click(object sender, EventArgs e)
+        {
+            if (tickFlag)
+            {
+                mainTimer.Start();
+                tickFlag = false;
+            }
+            else
+            {
+                mainTimer.Stop();
+                tickFlag = true;
+            }
+        }
+
+        // User sets apples to any positive integer.
+        public void ShowMyDialogBox()
+        {
+            // Object Model.
+            Size sizeObj = new Size(195, 178);
+
+            // Label Rows.
+            Label labelRows = new Label();
+            labelRows.Size = new Size(37, 13);
+            labelRows.Location = new System.Drawing.Point(12, 28);
+            labelRows.Name = "labelRows";
+            labelRows.Text = "Apples:";
+            labelRows.AutoSize = true;
+
+            // Textbox Rows.                
+            textBoxRows.Size = new Size(100, 20);
+            textBoxRows.Location = new System.Drawing.Point(68, 25);
+            textBoxRows.Name = "textBoxRows";
+            textBoxRows.TabIndex = 1;
+
+            // OK Button.
+            Button buttonOk = new Button();
+            buttonOk.Size = new Size(75, 23);
+            buttonOk.Location = new System.Drawing.Point(12, 142);
+            buttonOk.DialogResult = DialogResult.OK;
+            buttonOk.Click += ButtonOk_Click;
+            buttonOk.Name = "buttonOk";
+            buttonOk.Text = "&OK";
+            buttonOk.TabIndex = 2;
+
+            // Cancel Button.
+            Button buttonCancel = new Button();
+            buttonCancel.Size = new Size(75, 23);
+            buttonCancel.Location = new System.Drawing.Point(93, 142);
+            buttonCancel.DialogResult = DialogResult.Cancel;
+            buttonCancel.Click += ButtonCancel_Click;
+            buttonCancel.Name = "cancelButton";
+            buttonCancel.Text = "&Cancel";
+            buttonCancel.TabIndex = 3;
+
+            // Inputbox Form.                
+            Form inputBox = new Form();
+            inputBox.FormBorderStyle = FormBorderStyle.FixedDialog;
+            inputBox.ClientSize = sizeObj;
+            inputBox.Text = "Custom";
+            inputBox.Controls.Add(textBoxRows);
+            inputBox.Controls.Add(buttonOk);
+            inputBox.Controls.Add(buttonCancel);
+            inputBox.Controls.Add(labelRows);
+
+            inputBox.StartPosition = FormStartPosition.CenterScreen;
+            inputBox.FormBorderStyle = FormBorderStyle.None;
+
+            // Validation of the values for the dynamic Custom Form.
+            do
+            {
+                // Resetting the values.
+                textBoxRows.Text = "";
+                DialogResult result = inputBox.ShowDialog();
+            } while (validationCustom == true);
+
+            if (cancelFlag == true)
+            {
+                cancelFlag = false;
+                return;
+            }
+        }
+
+        // Custom Dynamic Form Cancel Button.
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+            // Cancel was pressed.
+            cancelFlag = true;
+
+            // Not need for validation.
+            validationCustom = false;
+        }
+
+        // Custom Dynamic Form Ok Button.
+        private void ButtonOk_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Converting values to numbers.
+                NumberOfApples = int.Parse(textBoxRows.Text);
+
+                // Validation of the Apples.
+                // Added the 40 restriction due to performance.
+                if (NumberOfApples < 0)
+                {
+                    MessageBox.Show("Apples must be any positive integer.");
+                    throw new FormatException();
+                }
+
+
+                // If everything was ok then do no need to show form again.
+                validationCustom = false;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Validation Error");
+                validationCustom = true;
+            }
+        }
         // Aurelio Code Here - END
 
         // William Your Code.
@@ -94,12 +232,16 @@ namespace PA5_Draft
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             Game.Move(Step);
+            
             Field.Invalidate();
         }
 
         private void Game_HitWallAndLose()
         {
             mainTimer.Stop();
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\w_ara\source\repos\4UR3L10\COP4226-05\kill.wav");
+            soundPlayer.Load();
+            soundPlayer.Play();
             Field.Refresh();
 
             // When the game is lost, show a message declaring the number of eaten apples.
@@ -108,6 +250,9 @@ namespace PA5_Draft
         private void Game_HitSnakeAndLose()
         {
             mainTimer.Stop();
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\w_ara\source\repos\4UR3L10\COP4226-05\hitsnakeandlose.wav");
+            soundPlayer.Load();
+            soundPlayer.Play();
             Field.Refresh();
 
             // When the game is lost, show a message declaring the number of eaten apples.
@@ -118,6 +263,13 @@ namespace PA5_Draft
         {
             // Counter for the number of apple eaten.
             NumberOfApplesEaten++;
+
+            // After every 10 eaten apples, the speed of snake should increase.
+            // The maximum speed of snake must by 10.
+            if (NumberOfApplesEaten % 10 == 0 && NumberOfApplesEaten <= 100)
+            {
+                Step++;
+            }
         }
     }
 }
