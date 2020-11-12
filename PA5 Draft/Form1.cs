@@ -14,7 +14,7 @@ namespace PA5_Draft
     public partial class MainForm : Form
     {
         // Global Variables.
-        private int Step = 1;
+        static int Step = 1;
         private readonly SnakeGame Game;
         private int NumberOfApples = 1;
         private Boolean flag = false;
@@ -23,6 +23,7 @@ namespace PA5_Draft
         private Boolean cancelFlag = false;
         private Boolean validationCustom = false;
         private TextBox textBoxRows = new TextBox();
+        int number1 = Step;
 
         // Constructor.
         public MainForm()
@@ -34,6 +35,7 @@ namespace PA5_Draft
             Game.EatAndGrow += Game_EatAndGrow;
             Game.HitWallAndLose += Game_HitWallAndLose;
             Game.HitSnakeAndLose += Game_HitSnakeAndLose;
+            
         }
 
         // Design and set the objects.
@@ -256,7 +258,7 @@ namespace PA5_Draft
             Field.Refresh();
 
             // When the game is lost, show a message declaring the number of eaten apples.
-            MessageBox.Show("You Died\nThe number of apple eaten was: " + NumberOfApplesEaten.ToString());           
+            MessageBox.Show("You Died\nThe number of apple(s) eaten were: " + NumberOfApplesEaten.ToString());           
         }
 
         private void Game_EatAndGrow()
@@ -266,10 +268,29 @@ namespace PA5_Draft
 
             // After every 10 eaten apples, the speed of snake should increase.
             // The maximum speed of snake must by 10.
-            if (NumberOfApplesEaten % 10 == 0 && NumberOfApplesEaten <= 100)
+            if (NumberOfApplesEaten % 10 == 0 && NumberOfApplesEaten < 100)
             {
                 Step++;
             }
+
+            // Set the progress bar minimum, maximum, and current values
+            this.progressBarStepValue.Minimum = 1;
+            this.progressBarStepValue.Maximum = 10;
+
+            if (Step < 10)
+            {
+                this.progressBarStepValue.Value = Step;
+                
+            }
+            else
+            {
+                this.progressBarStepValue.Visible = false;
+            }
+
+            // Increment progress bar
+            this.progressBarStepValue.Increment(1); // Range protection
+            this.Refresh();
+            textBoxStepValue.Text = Step.ToString();
         }
     }
 }
