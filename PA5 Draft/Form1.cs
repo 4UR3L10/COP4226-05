@@ -24,13 +24,13 @@ namespace PA5_Draft
         // Constructor.
         public MainForm(int NumberOfApples, string pattern)
         {
-            InitializeComponent();
-            Game = new SnakeGame(new System.Drawing.Point((Field.Width - 20) / 2, Field.Height / 2), 40, NumberOfApples, Field.Size);
+            InitializeComponent();            
+            Game = new SnakeGame(new System.Drawing.Point((Field.Width - 20) / 2, Field.Height / 2), 40, NumberOfApples, Field.Size, pattern);            
             Field.Image = new Bitmap(Field.Width, Field.Height);
-            patternChosen = pattern;
+            //patternChosen = pattern;
             Game.EatAndGrow += Game_EatAndGrow;
             Game.HitWallAndLose += Game_HitWallAndLose;
-            Game.HitSnakeAndLose += Game_HitSnakeAndLose;       
+            Game.HitSnakeAndLose += Game_HitSnakeAndLose;
         }
 
         // Design and set the objects.

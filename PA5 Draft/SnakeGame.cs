@@ -73,7 +73,7 @@ namespace PA5_Draft
                     i--;
             }
         }
-        public SnakeGame(System.Drawing.Point startingPoint, int Length, int AppleCount, Size GameFieldSize)
+        public SnakeGame(System.Drawing.Point startingPoint, int Length, int AppleCount, Size GameFieldSize, string pattern)
         {
             Start = new Point(startingPoint.X, startingPoint.Y);
             FieldSize = GameFieldSize;
@@ -86,13 +86,84 @@ namespace PA5_Draft
             Obstacles.Add(new LineSeg(new Point(1, GameFieldSize.Height-1), new Point(GameFieldSize.Width-1, GameFieldSize.Height-1)));
             Obstacles.Add(new LineSeg(new Point(GameFieldSize.Width-1, GameFieldSize.Height-1), new Point(GameFieldSize.Width-1, 1)));
             Obstacles.Add(new LineSeg(new Point(1, 1), new Point(GameFieldSize.Width - 1, 1)));
-            Obstacles.Add(new LineSeg(new Point(150, 90), new Point(90, 150)));
-            Obstacles.Add(new LineSeg(new Point(470, 90), new Point(530, 150)));
-            Obstacles.Add(new LineSeg(new Point(90, 470), new Point(150, 530)));
-            Obstacles.Add(new LineSeg(new Point(470, 530), new Point(530, 470)));
+
+            Console.WriteLine("gdsafasfasfadsfsfsfsdf    " + pattern); 
+            
+            switch (pattern)
+            {
+                case "Default":
+                    Obstacles.Add(new LineSeg(new Point(150, 90), new Point(90, 150)));
+                    Obstacles.Add(new LineSeg(new Point(470, 90), new Point(530, 150)));
+                    Obstacles.Add(new LineSeg(new Point(90, 470), new Point(150, 530)));
+                    Obstacles.Add(new LineSeg(new Point(470, 530), new Point(530, 470)));
+                break;
+                    
+                case "Pattern 01":
+                    Obstacles.Add(new LineSeg(new Point(10, 100), new Point(10, 10)));
+                    Obstacles.Add(new LineSeg(new Point(110, 200), new Point(100, 100)));
+                    Obstacles.Add(new LineSeg(new Point(220, 300), new Point(200, 200)));
+                    Obstacles.Add(new LineSeg(new Point(320, 400), new Point(300, 300)));
+                    Obstacles.Add(new LineSeg(new Point(420, 500), new Point(400, 400)));
+                break;
+
+                case "Pattern 02":
+                    Obstacles.Add(new LineSeg(new Point(10, 10), new Point(90, 10)));
+                    Obstacles.Add(new LineSeg(new Point(100, 20), new Point(100, 100)));
+                    Obstacles.Add(new LineSeg(new Point(500, 149), new Point(150, 150)));
+                    Obstacles.Add(new LineSeg(new Point(320, 400), new Point(150, 150)));
+                break;
+
+                case "Pattern 03":
+                    Obstacles.Add(new LineSeg(new Point(120, 180), new Point(550, 450)));
+                    Obstacles.Add(new LineSeg(new Point(550, 180), new Point(100, 450)));
+                break;
+
+                case "Pattern 04":
+                    Obstacles.Add(new LineSeg(new Point(300, 150), new Point(300, 450)));
+                    Obstacles.Add(new LineSeg(new Point(100, 327), new Point(500, 325)));
+                break;
+
+                case "Pattern 05":
+                    Obstacles.Add(new LineSeg(new Point(300, 150), new Point(300, 450)));
+                    Obstacles.Add(new LineSeg(new Point(100, 400), new Point(300, 325)));
+                    Obstacles.Add(new LineSeg(new Point(550, 400), new Point(300, 325)));
+                break;
+
+                case "Pattern 06":
+                    Obstacles.Add(new LineSeg(new Point(100, 150), new Point(500, 145)));
+                    Obstacles.Add(new LineSeg(new Point(100, 327), new Point(500, 325)));
+                break;
+
+                case "Pattern 07":
+                    Obstacles.Add(new LineSeg(new Point(400, 190), new Point(400, 400)));
+                    Obstacles.Add(new LineSeg(new Point(300, 400), new Point(300, 300)));
+                    Obstacles.Add(new LineSeg(new Point(300, 100), new Point(250, 250)));
+                    Obstacles.Add(new LineSeg(new Point(300, 100), new Point(100, 100)));
+                break;
+
+                case "Pattern 08":
+                    Obstacles.Add(new LineSeg(new Point(100, 150), new Point(500, 145)));
+                    Obstacles.Add(new LineSeg(new Point(100, 327), new Point(500, 325)));
+                    Obstacles.Add(new LineSeg(new Point(90, 170), new Point(100, 300)));
+                    Obstacles.Add(new LineSeg(new Point(500, 170), new Point(500, 300)));
+                break;
+
+                case "Pattern 09":
+                    Obstacles.Add(new LineSeg(new Point(100, 150), new Point(500, 145)));
+                    Obstacles.Add(new LineSeg(new Point(100, 407), new Point(500, 405)));
+                    Obstacles.Add(new LineSeg(new Point(100, 407), new Point(500, 145)));
+                break;
+
+                default:
+                    Obstacles.Add(new LineSeg(new Point(150, 90), new Point(90, 150)));
+                    Obstacles.Add(new LineSeg(new Point(470, 90), new Point(530, 150)));
+                    Obstacles.Add(new LineSeg(new Point(90, 470), new Point(150, 530)));
+                    Obstacles.Add(new LineSeg(new Point(470, 530), new Point(530, 470)));
+                break;                    
+            }
+
             Apples = new List<Point>();
             AddApple(AppleCount);
-
         }
         internal void Move(int Step,Direction NewDirection)
         {
