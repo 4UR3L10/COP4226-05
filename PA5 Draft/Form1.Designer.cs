@@ -103,6 +103,7 @@
             this.MinimumSize = new System.Drawing.Size(620, 620);
             this.Name = "MainForm";
             this.Text = "Snakes";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Snakes_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.Field)).EndInit();
             this.ResumeLayout(false);
