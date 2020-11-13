@@ -15,15 +15,11 @@ namespace PA5_Draft
     {
         // Global Variables.
         static int Step = 1;
-        private readonly SnakeGame Game;
-        private int NumberOfApples = 1;
-        private Boolean flag = false;
         private int NumberOfApplesEaten = 0;
         private Boolean flag = false;        
         private Boolean tickFlag = false;
         private string patternChosen = "";
         private readonly SnakeGame Game;
-        int number1 = Step;
 
         // Constructor.
         public MainForm(int NumberOfApples, string pattern)
