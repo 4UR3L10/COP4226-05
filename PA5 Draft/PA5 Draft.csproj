@@ -91,6 +91,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Apples.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\hitsnakeandlose.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
