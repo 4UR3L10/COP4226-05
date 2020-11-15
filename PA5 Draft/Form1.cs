@@ -24,13 +24,13 @@ namespace PA5_Draft
         // Constructor.
         public MainForm(int NumberOfApples, string pattern)
         {
-            InitializeComponent();
-            Game = new SnakeGame(new System.Drawing.Point((Field.Width - 20) / 2, Field.Height / 2), 40, NumberOfApples, Field.Size);
+            InitializeComponent();            
+            Game = new SnakeGame(new System.Drawing.Point((Field.Width - 20) / 2, Field.Height / 2), 40, NumberOfApples, Field.Size, pattern);            
             Field.Image = new Bitmap(Field.Width, Field.Height);
-            patternChosen = pattern;
+            //patternChosen = pattern;
             Game.EatAndGrow += Game_EatAndGrow;
             Game.HitWallAndLose += Game_HitWallAndLose;
-            Game.HitSnakeAndLose += Game_HitSnakeAndLose;       
+            Game.HitSnakeAndLose += Game_HitSnakeAndLose;
         }
 
         // Design and set the objects.
@@ -145,6 +145,7 @@ namespace PA5_Draft
 
             // When the game is lost, show a message declaring the number of eaten apples.
             MessageBox.Show("You Died\nThe number of apple(s) eaten were: " + NumberOfApplesEaten.ToString());
+            Step = 1;
             this.Close();
         }
         private void Game_HitSnakeAndLose()
@@ -157,6 +158,7 @@ namespace PA5_Draft
 
             // When the game is lost, show a message declaring the number of eaten apples.
             MessageBox.Show("You Died\nThe number of apple(s) eaten were: " + NumberOfApplesEaten.ToString());
+            Step = 1;
             this.Close();
         }
                 
