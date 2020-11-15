@@ -145,6 +145,7 @@ namespace PA5_Draft
 
             // When the game is lost, show a message declaring the number of eaten apples.
             MessageBox.Show("You Died\nThe number of apple(s) eaten were: " + NumberOfApplesEaten.ToString());
+            Step = 1;
             this.Close();
         }
         private void Game_HitSnakeAndLose()
@@ -157,6 +158,7 @@ namespace PA5_Draft
 
             // When the game is lost, show a message declaring the number of eaten apples.
             MessageBox.Show("You Died\nThe number of apple(s) eaten were: " + NumberOfApplesEaten.ToString());
+            Step = 1;
             this.Close();
         }
                 
