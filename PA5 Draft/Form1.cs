@@ -164,7 +164,9 @@ namespace PA5_Draft
         {
             // Counter for the number of apple eaten.
             NumberOfApplesEaten++;
-
+            SoundPlayer soundPlayer = new SoundPlayer(@"Resources\Apples.wav");
+            soundPlayer.Load();
+            soundPlayer.Play();
             // After every 10 eaten apples, the speed of snake should increase.
             // The maximum speed of snake must by 10.
             if (NumberOfApplesEaten % 10 == 0 && NumberOfApplesEaten < 100)
